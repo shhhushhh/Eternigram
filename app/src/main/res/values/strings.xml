@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Eternigram</string>
     <string name="instagram_logo">Instagram Logo</string>
+    <string name="back4app_server_url">https://parseapi.back4app.com/</string>
+
+    <!-- Paste BOTH strings as required -->
+    <string name="back4app_app_id">ZzHynV7SZdR3hKb5VpA9CdPhcaZP1VYuCANiapi8</string>
+    <string name="back4app_client_key">IOa2y7gn6F3StJueQOn4bNTVJUHKidgRZxZeJhlu</string>
 </resources>
