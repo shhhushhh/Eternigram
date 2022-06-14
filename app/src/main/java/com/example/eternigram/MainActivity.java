@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.eternigram.models.Post;
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -84,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     savePost(description, currentUser);
+                    Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -167,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     private void savePost(String description, ParseUser currentUser) {
         Post post = new Post();
         post.setDescription(description);
-//        post.setImage();
+//        post.setImage(getPhotoFileUri(photoFileName));
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
             @Override
