@@ -22,6 +22,7 @@ public class Post extends ParseObject {
     public static final String KEY_USER = "user";
     public static final String KEY_IMAGE = "image";
     public static final String KEY_DESCRIPTION = "description";
+    public static final String KEY_LIKES = "likes";
 
     public ParseUser getUser() {
         return getParseUser(KEY_USER);
@@ -46,6 +47,10 @@ public class Post extends ParseObject {
     public void setImage(ParseFile parseFile) {
         put(KEY_IMAGE, parseFile);
     }
+
+    public String getLikes() { return getString(KEY_LIKES); }
+
+    public void setLikes(String likes) { put(KEY_LIKES, likes); }
 
     public String getRelativeTimeAgo(String rawJsonDate) {
         String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";

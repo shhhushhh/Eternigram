@@ -7,56 +7,36 @@
     tools:context=".PostDetailsActivity">
 
     <TextView
-        android:id="@+id/tvUsername"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="32dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="surely_ill_change_my_username" />
-
-    <ImageView
-        android:id="@+id/ivImage"
-        android:layout_width="375dp"
-        android:layout_height="302dp"
-        android:layout_marginTop="20dp"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivProfileImg"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
         android:id="@+id/tvTimeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="a few hours ago" />
-
-    <ImageView
-        android:id="@+id/ivProfileImg"
-        android:layout_width="47dp"
-        android:layout_height="47dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tvDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="28dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ivImage"
+        app:layout_constraintTop_toBottomOf="@+id/tvUsername"
         tools:text="OMG THIS IS MY FIRST TIME CREATING AN INSTAGRAM CLONE!!!!! I AM SO EXCITED!!!!!!" />
+
+    <TextView
+        android:id="@+id/tvUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="surely" />
 </androidx.constraintlayout.widget.ConstraintLayout>

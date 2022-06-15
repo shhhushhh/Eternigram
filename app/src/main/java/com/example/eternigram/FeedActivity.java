@@ -97,7 +97,7 @@ public class FeedActivity extends AppCompatActivity {
 
                 // save received posts to list and notify adapter of new data
                 allPosts.addAll(posts);
-//                PostsAdapter.smoothScrollToPosition(0);
+//                rvPosts.smoothScrollToPosition(0);
                 adapter.notifyDataSetChanged();
             }
         });

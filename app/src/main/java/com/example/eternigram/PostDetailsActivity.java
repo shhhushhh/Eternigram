@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,12 +16,9 @@ import org.parceler.Parcels;
 
 public class PostDetailsActivity extends AppCompatActivity {
 
-    Context context;
     Post post;
-    private ImageView ivProfileImg;
     private TextView tvUsername;
     private TextView tvTimeStamp;
-    private ImageView ivPostImg;
     private TextView tvDescription;
 
     @Override
@@ -28,22 +26,24 @@ public class PostDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_details);
 
-        ivProfileImg = findViewById(R.id.ivProfileImg);
         tvUsername = findViewById(R.id.tvUsername);
         tvTimeStamp = findViewById(R.id.tvTimeStamp);
-        ivPostImg = findViewById(R.id.ivImage);
         tvDescription = findViewById(R.id.tvDescription);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
-        // Implement profile image
         tvUsername.setText(post.getUser().getUsername());
         tvTimeStamp.setText(post.getRelativeTimeAgo(post.getCreatedAt().toString()));
-        if (post.getImage() != null) {
-            ivPostImg.setVisibility(View.VISIBLE);
-//            Glide.with(context).load(post.getImage().getUrl()).into(ivPostImg);
-        } else {
-            ivPostImg.setVisibility(View.GONE);
-        }
+//        if (post.getImage() != null) {
+//            // i need a context in order to do this
+//            // making a new context just makes this null
+//            // so do i wrap the context from postadapter into this parcel?
+//            // seems like StackOverflow says it is unadvised to wrap a context into a parcel because it's not necessarily serializable
+//            // so now what oo i do?
+//            Glide.with(PostsAdapter.ViewHolder.class).load(post.getImage().getUrl()).into(ivPostImg);
+//            ivPostImg.setVisibility(View.VISIBLE);
+//        } else {
+//            ivPostImg.setVisibility(View.GONE);
+//        }
         tvDescription.setText(post.getDescription());
     }
 }

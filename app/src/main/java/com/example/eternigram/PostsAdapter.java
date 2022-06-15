@@ -2,10 +2,12 @@ package com.example.eternigram;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.eternigram.models.Post;
 
 import org.parceler.Parcels;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -64,6 +67,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
+        private ImageView ivLike;
+        private TextView tvLikes;
+        private boolean liked = false;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -71,6 +77,30 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
+            ivLike = itemView.findViewById(R.id.ivLike);
+            tvLikes = itemView.findViewById(R.id.tvLikes);
+//            ivLike.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getAdapterPosition();
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        // get the movie at the position, this won't work if the class is static
+//                        Post post = posts.get(position);
+//                        int newLikes = Integer.getInteger(post.getLikes());
+//                        if (!liked) {
+//                            // if has not been liked, change heart to red
+//                            ivLike.setImageResource(R.drawable.ig_heart_red);
+//                            // Add one to the post's likes
+//                            newLikes++;
+//                        } else {
+//                            // otherwise, change back to heart with black outline
+//                            ivLike.setImageResource(R.drawable.ufi_heart);
+//                            newLikes--;
+//                        }
+//                        post.setLikes(String.valueOf(newLikes));
+//                    }
+//                }
+//            });
         }
 
         public void bind(Post post) {
@@ -82,6 +112,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             } else {
                 ivImage.setVisibility(View.GONE);
             }
+            tvLikes.setText(post.getLikes());
         }
 
         @Override
@@ -92,10 +123,12 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             if (position != RecyclerView.NO_POSITION) {
                 // get the movie at the position, this won't work if the class is static
                 Post post = posts.get(position);
+                Log.i("post_user", post.getUser().getUsername());
                 // create intent for the new activity
                 Intent intent = new Intent(context, PostDetailsActivity.class);
                 // serialize the movie using parceler, use its short name as a key
                 intent.putExtra(Post.class.getSimpleName(), Parcels.wrap(post));
+                Log.i("post_user_2", post.getUser().getUsername());
                 // show the activity
                 context.startActivity(intent);
                 Log.i("adapter_to_details", "Did intent sending fail?");
