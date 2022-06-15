@@ -71,7 +71,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private TextView tvLikes;
         private boolean liked = false;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) throws NullPointerException {
             super(itemView);
             itemView.setOnClickListener(this);
             tvUsername = itemView.findViewById(R.id.tvUsername);
@@ -79,28 +79,34 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikes = itemView.findViewById(R.id.tvLikes);
-//            ivLike.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getAdapterPosition();
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        // get the movie at the position, this won't work if the class is static
-//                        Post post = posts.get(position);
-//                        int newLikes = Integer.getInteger(post.getLikes());
-//                        if (!liked) {
-//                            // if has not been liked, change heart to red
-//                            ivLike.setImageResource(R.drawable.ig_heart_red);
-//                            // Add one to the post's likes
-//                            newLikes++;
-//                        } else {
-//                            // otherwise, change back to heart with black outline
-//                            ivLike.setImageResource(R.drawable.ufi_heart);
-//                            newLikes--;
-//                        }
-//                        post.setLikes(String.valueOf(newLikes));
-//                    }
-//                }
-//            });
+            ivLike.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        // get the movie at the position, this won't work if the class is static
+                        Post post = posts.get(position);
+                        Log.i("post_likes", post.getLikes());
+                        int newLikes = Integer.parseInt(post.getLikes());
+                        if (!liked) {
+                            // if has not been liked, change heart to red
+                            ivLike.setImageResource(R.drawable.ig_heart_red);
+                            // Add one to the post's likes
+                            newLikes++;
+                            liked = true;
+                        } else {
+                            // otherwise, change back to heart with black outline
+                            ivLike.setImageResource(R.drawable.ufi_heart);
+                            if (newLikes > 0) {
+                                newLikes--;
+                            }
+                            liked = false;
+                        }
+                        post.setLikes(String.valueOf(newLikes));
+                        tvLikes.setText(post.getLikes());
+                    }
+                }
+            });
         }
 
         public void bind(Post post) {
