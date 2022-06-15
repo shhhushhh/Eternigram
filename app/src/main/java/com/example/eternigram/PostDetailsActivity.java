@@ -20,6 +20,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private TextView tvUsername;
     private TextView tvTimeStamp;
     private TextView tvDescription;
+    private TextView tvLikes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvUsername = findViewById(R.id.tvUsername);
         tvTimeStamp = findViewById(R.id.tvTimeStamp);
         tvDescription = findViewById(R.id.tvDescription);
+        tvLikes = findViewById(R.id.tvLikes);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
         tvUsername.setText(post.getUser().getUsername());
@@ -45,5 +47,12 @@ public class PostDetailsActivity extends AppCompatActivity {
 //            ivPostImg.setVisibility(View.GONE);
 //        }
         tvDescription.setText(post.getDescription());
+        String likes;
+        if (post.getLikes().equals("1")) {
+            likes = "Liked by " + post.getLikes() + " user";
+        } else {
+            likes = "Liked by " + post.getLikes() + " users";
+        }
+        tvLikes.setText(likes);
     }
 }
