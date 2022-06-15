@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bTakePhoto;
     private ImageView ivPhoto;
     private Button bSubmit;
+    private boolean hasPhoto = false;
 
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -76,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        queryPosts();
-
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        queryPosts();
     }
 
     private void launchCamera() {
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
-
+                hasPhoto = true;
                 Uri takenPhotoUri = Uri.fromFile(getPhotoFileUri(photoFileName));
 // by this point we have the camera photo on disk
                 Bitmap rawTakenImage = BitmapFactory.decodeFile(takenPhotoUri.getPath());
@@ -175,11 +175,11 @@ public class MainActivity extends AppCompatActivity {
     private void savePost(String description, ParseUser currentUser) {
         Post post = new Post();
         post.setDescription(description);
-//        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+        if (hasPhoto) {
             File photoFile = getPhotoFileUri(photoFileName);
             ParseFile parseFile = new ParseFile(photoFile);
             post.setImage(parseFile);
-//        }
+        }
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
             @Override
