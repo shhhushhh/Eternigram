@@ -26,6 +26,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import org.parceler.Parcels;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -74,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        queryPosts();
+        queryPosts();
 
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     savePost(description, currentUser);
                     Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+//                    Intent intent = new Intent();
+//                    intent.putExtra("post", Parcels.wrap(post));
                     startActivity(intent);
                     finish();
                 }
@@ -171,7 +175,11 @@ public class MainActivity extends AppCompatActivity {
     private void savePost(String description, ParseUser currentUser) {
         Post post = new Post();
         post.setDescription(description);
-//        post.setImage(getPhotoFileUri(photoFileName));
+//        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+            File photoFile = getPhotoFileUri(photoFileName);
+            ParseFile parseFile = new ParseFile(photoFile);
+            post.setImage(parseFile);
+//        }
         post.setUser(currentUser);
         post.saveInBackground(new SaveCallback() {
             @Override

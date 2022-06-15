@@ -31,6 +31,18 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feed);
 
+        rvPosts = findViewById(R.id.rvPosts);
+        // initialize the array that will hold posts and create a PostsAdapter
+        allPosts = new ArrayList<>();
+        adapter = new PostsAdapter(this, allPosts);
+
+        // set the adapter on the recycler view
+        rvPosts.setAdapter(adapter);
+        // set the layout manager on the recycler view
+        rvPosts.setLayoutManager(new LinearLayoutManager(this));
+        // query posts from Parstagram
+        queryPosts();
+
         // Lookup the swipe container view
         swipeContainer = findViewById(R.id.swipeContainer);
         // Setup refresh listener which triggers new data loading
@@ -48,18 +60,6 @@ public class FeedActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
-
-        rvPosts = findViewById(R.id.rvPosts);
-        // initialize the array that will hold posts and create a PostsAdapter
-        allPosts = new ArrayList<>();
-        adapter = new PostsAdapter(this, allPosts);
-
-        // set the adapter on the recycler view
-        rvPosts.setAdapter(adapter);
-        // set the layout manager on the recycler view
-        rvPosts.setLayoutManager(new LinearLayoutManager(this));
-        // query posts from Parstagram
-        queryPosts();
     }
 
     private void fetchTimelineAsync(int i) {
@@ -97,6 +97,7 @@ public class FeedActivity extends AppCompatActivity {
 
                 // save received posts to list and notify adapter of new data
                 allPosts.addAll(posts);
+//                PostsAdapter.smoothScrollToPosition(0);
                 adapter.notifyDataSetChanged();
             }
         });
