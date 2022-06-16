@@ -9,4 +9,6 @@
     <string name="logout">Logout</string>
     <string name="description">Description</string>
     <string name="like_button">Like button</string>
+    <string name="compose">Compose</string>
+    <string name="instagram_logo1">Instagram Logo</string>
 </resources>

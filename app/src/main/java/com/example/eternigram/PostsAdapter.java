@@ -86,7 +86,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                     if (position != RecyclerView.NO_POSITION) {
                         // get the movie at the position, this won't work if the class is static
                         Post post = posts.get(position);
-                        Log.i("post_likes", post.getLikes());
+//                        Log.i("post_likes", post.getLikes());
                         int newLikes = Integer.parseInt(post.getLikes());
                         if (!liked) {
                             // if has not been liked, change heart to red

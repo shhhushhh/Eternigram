@@ -175,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private void savePost(String description, ParseUser currentUser) {
         Post post = new Post();
         post.setDescription(description);
+        post.setLikes("0");
         if (hasPhoto) {
             File photoFile = getPhotoFileUri(photoFileName);
             ParseFile parseFile = new ParseFile(photoFile);
