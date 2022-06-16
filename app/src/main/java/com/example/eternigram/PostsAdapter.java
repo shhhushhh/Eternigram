@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.eternigram.models.Post;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 import org.w3c.dom.Text;
@@ -64,21 +67,25 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        private ImageView ivProfile;
         private TextView tvUsername;
         private ImageView ivImage;
         private TextView tvDescription;
         private ImageView ivLike;
         private TextView tvLikes;
+        private TextView tvTimeStamp;
         private boolean liked = false;
 
         public ViewHolder(@NonNull View itemView) throws NullPointerException {
             super(itemView);
             itemView.setOnClickListener(this);
+            ivProfile = itemView.findViewById(R.id.ivProfile);
             tvUsername = itemView.findViewById(R.id.tvUsername);
             ivImage = itemView.findViewById(R.id.ivImage);
             tvDescription = itemView.findViewById(R.id.tvDescription);
             ivLike = itemView.findViewById(R.id.ivLike);
             tvLikes = itemView.findViewById(R.id.tvLikes);
+            tvTimeStamp = itemView.findViewById(R.id.tvTimeStamp);
             ivLike.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -103,6 +110,16 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                             liked = false;
                         }
                         post.setLikes(String.valueOf(newLikes));
+                        post.saveInBackground(new SaveCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                if (e != null) {
+                                    Log.e("likes_saved_failed", "Likes count has not been saved", e);
+                                } else {
+                                    Log.i("likes_saved_succeed", "Likes count has been saved!");
+                                }
+                            }
+                        });
                         tvLikes.setText(post.getLikes());
                     }
                 }
@@ -110,6 +127,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
+            Glide.with(context).load(post.getUser().getParseFile("profilePic")).into(ivProfile);
             tvUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
             if (post.getImage() != null) {
@@ -119,6 +137,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 ivImage.setVisibility(View.GONE);
             }
             tvLikes.setText(post.getLikes());
+            tvTimeStamp.setText(post.getRelativeTimeAgo(post.getCreatedAt().toString()));
         }
 
         @Override
