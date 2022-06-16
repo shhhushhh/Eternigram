@@ -3,6 +3,7 @@ package com.example.eternigram;
 import android.content.Context;
 import android.content.Intent;
 import android.media.Image;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.eternigram.models.Post;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
@@ -126,7 +129,9 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         }
 
         public void bind(Post post) {
-            Glide.with(context).load(post.getUser().getParseFile("profilePic")).into(ivProfile);
+            ParseFile profile = (ParseFile) post.getUser().get("profilePic");
+            Uri uri = Uri.parse(profile.getUrl());
+            Glide.with(context).load(uri).centerCrop().transform(new RoundedCorners(360)).into(ivProfile);
             tvUsername.setText(post.getUser().getUsername());
             tvDescription.setText(post.getDescription());
             if (post.getImage() != null) {
