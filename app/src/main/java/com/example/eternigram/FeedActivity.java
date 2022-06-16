@@ -1,6 +1,7 @@
 package com.example.eternigram;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -32,6 +33,7 @@ public class FeedActivity extends AppCompatActivity {
     private RecyclerView rvPosts;
     private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
+    private ImageView ivLike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

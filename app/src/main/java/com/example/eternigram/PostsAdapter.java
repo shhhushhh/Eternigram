@@ -74,7 +74,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
         private ImageView ivLike;
         private TextView tvLikes;
         private TextView tvTimeStamp;
-        private boolean liked = false;
 
         public ViewHolder(@NonNull View itemView) throws NullPointerException {
             super(itemView);
@@ -95,19 +94,19 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                         Post post = posts.get(position);
 //                        Log.i("post_likes", post.getLikes());
                         int newLikes = Integer.parseInt(post.getLikes());
-                        if (!liked) {
+                        if (!post.getBoolean("liked")) {
                             // if has not been liked, change heart to red
                             ivLike.setImageResource(R.drawable.ig_heart_red);
                             // Add one to the post's likes
                             newLikes++;
-                            liked = true;
+                            post.put("liked", true);
                         } else {
                             // otherwise, change back to heart with black outline
                             ivLike.setImageResource(R.drawable.ufi_heart);
                             if (newLikes > 0) {
                                 newLikes--;
                             }
-                            liked = false;
+                            post.put("liked", false);
                         }
                         post.setLikes(String.valueOf(newLikes));
                         post.saveInBackground(new SaveCallback() {
@@ -135,6 +134,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.ViewHolder> 
                 ivImage.setVisibility(View.VISIBLE);
             } else {
                 ivImage.setVisibility(View.GONE);
+            }
+            if (post.getBoolean("liked")) {
+                ivLike.setImageResource(R.drawable.ig_heart_red);
+            } else {
+                ivLike.setImageResource(R.drawable.ufi_heart);
             }
             tvLikes.setText(post.getLikes());
             tvTimeStamp.setText(post.getRelativeTimeAgo(post.getCreatedAt().toString()));
