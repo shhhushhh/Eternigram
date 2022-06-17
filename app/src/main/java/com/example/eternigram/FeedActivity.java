@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -40,6 +42,7 @@ public class FeedActivity extends AppCompatActivity {
     private EndlessRecyclerViewScrollListener scrollListener;
     private ImageView ivLike;
     private BottomNavigationView bottomNavigationView;
+    FragmentManager ft = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,13 +77,16 @@ public class FeedActivity extends AppCompatActivity {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                Intent intent;
                 switch (item.getItemId()) {
                     case R.id.action_capture:
-                        Intent intent = new Intent(FeedActivity.this, MainActivity.class);
+                        intent = new Intent(FeedActivity.this, MainActivity.class);
                         startActivity(intent);
                         return true;
                     case R.id.action_profile:
-                        // do something here
+//                        fragment = new ProfileFragment();
+//                        ft.beginTransaction().replace(R.id.clFeed, fragment).commit();
                         return true;
                     default: return true;
                 }

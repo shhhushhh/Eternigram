@@ -5,6 +5,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.core.content.FileProvider;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.ClipData;
 import android.content.Intent;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bSubmit;
     private boolean hasPhoto = false;
     private BottomNavigationView bottomNavigationView;
+    FragmentManager ft = getSupportFragmentManager();
 
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -91,14 +94,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Intent intent;
+                Fragment fragment;
                 switch (item.getItemId()) {
                     case R.id.action_home:
-                        Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                        intent = new Intent(MainActivity.this, FeedActivity.class);
                         startActivity(intent);
                         finish();
                         return true;
                     case R.id.action_profile:
-                        // do something here
+//                        fragment = new ProfileFragment();
+//                        ft.beginTransaction().replace(R.id.clMain, fragment).commit();
                         return true;
                     default: return true;
                 }
