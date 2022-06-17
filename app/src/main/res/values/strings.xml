@@ -15,4 +15,6 @@
     <string name="capture">Capture</string>
     <string name="home">Home</string>
     <string name="take_picture">Take Picture</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign up</string>
 </resources>
