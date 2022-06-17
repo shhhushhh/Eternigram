@@ -5,9 +5,8 @@
     tools:context=".FeedActivity">
 
     <item
-        android:id="@+id/compose"
-        android:icon="@drawable/instagram_new_post_outline_24"
-        android:title="@string/compose"
+        android:id="@+id/bLogout"
+        android:title="@string/logout"
         app:showAsAction="always" />
 
 </menu>

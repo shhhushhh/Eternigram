@@ -11,4 +11,8 @@
     <string name="like_button">Like button</string>
     <string name="compose">Compose</string>
     <string name="instagram_logo1">Instagram Logo</string>
+    <string name="profile">Profile</string>
+    <string name="capture">Capture</string>
+    <string name="home">Home</string>
+    <string name="take_picture">Take Picture</string>
 </resources>

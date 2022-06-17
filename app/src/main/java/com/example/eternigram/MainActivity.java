@@ -1,12 +1,17 @@
 package com.example.eternigram;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuView;
 import androidx.core.content.FileProvider;
 
+import android.content.ClipData;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -14,7 +19,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +30,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.eternigram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.elevation.SurfaceColors;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -39,12 +49,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button bLogout;
+    private View bLogout;
     private EditText etDescription;
     private Button bTakePhoto;
     private ImageView ivPhoto;
     private Button bSubmit;
     private boolean hasPhoto = false;
+    private BottomNavigationView bottomNavigationView;
 
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
@@ -61,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         bTakePhoto = findViewById(R.id.bTakePicture);
         ivPhoto = findViewById(R.id.ivTakenPhoto);
         bSubmit = findViewById(R.id.bSubmit);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
 
         // on some click or some loading we need to wait for...
         ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
@@ -72,14 +84,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        bLogout.setOnClickListener(new View.OnClickListener() {
+        bottomNavigationView.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(this));
+        bottomNavigationView.setItemIconTintList(null);
+        bottomNavigationView.setSelectedItemId(R.id.action_capture);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
             @Override
-            public void onClick(View v) {
-                ParseUser.logOutInBackground();
-                ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_home:
+                        Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                        startActivity(intent);
+                        finish();
+                        return true;
+                    case R.id.action_profile:
+                        // do something here
+                        return true;
+                    default: return true;
+                }
             }
         });
 
@@ -107,6 +129,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         queryPosts();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        if (item.getItemId() == R.id.bLogout) {
+            ParseUser.logOutInBackground();
+            ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void launchCamera() {

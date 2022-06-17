@@ -1,5 +1,6 @@
 package com.example.eternigram;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuView;
 import androidx.appcompat.widget.Toolbar;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -16,9 +18,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.example.eternigram.models.Post;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.elevation.SurfaceColors;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 
@@ -34,6 +39,7 @@ public class FeedActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     private EndlessRecyclerViewScrollListener scrollListener;
     private ImageView ivLike;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class FeedActivity extends AppCompatActivity {
         // Make sure the toolbar exists in the activity and is not null
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(this));
 
         rvPosts = findViewById(R.id.rvPosts);
         // initialize the array that will hold posts and create a PostsAdapter
@@ -57,6 +64,29 @@ public class FeedActivity extends AppCompatActivity {
         // set the layout manager on the recycler view
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvPosts.setLayoutManager(linearLayoutManager);
+
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setBackgroundColor(SurfaceColors.SURFACE_2.getColor(this));
+        bottomNavigationView.setSelectedItemId(R.id.action_home);
+        bottomNavigationView.setItemIconTintList(null);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.action_capture:
+                        Intent intent = new Intent(FeedActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        return true;
+                    case R.id.action_profile:
+                        // do something here
+                        return true;
+                    default: return true;
+                }
+            }
+        });
+
         // query posts from Parstagram
         queryPosts();
 
@@ -109,10 +139,12 @@ public class FeedActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-        if (item.getItemId() == R.id.compose) {
-            Intent intent = new Intent(FeedActivity.this, MainActivity.class);
+        if (item.getItemId() == R.id.bLogout) {
+            ParseUser.logOutInBackground();
+            ParseUser currentUser = ParseUser.getCurrentUser(); // this will now be null
+            Intent intent = new Intent(FeedActivity.this, LoginActivity.class);
             startActivity(intent);
-            return true;
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }
