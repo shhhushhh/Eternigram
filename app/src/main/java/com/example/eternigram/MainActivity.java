@@ -10,12 +10,15 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.eternigram.models.Post;
@@ -59,6 +62,9 @@ public class MainActivity extends AppCompatActivity {
         ivPhoto = findViewById(R.id.ivTakenPhoto);
         bSubmit = findViewById(R.id.bSubmit);
 
+        // on some click or some loading we need to wait for...
+        ProgressBar pb = (ProgressBar) findViewById(R.id.pbLoading);
+
         bTakePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,17 +86,23 @@ public class MainActivity extends AppCompatActivity {
         bSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                pb.setVisibility(ProgressBar.VISIBLE);
                 String description = etDescription.getText().toString();
                 if (description.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Description cannot be empty", Toast.LENGTH_SHORT).show();
                 } else {
                     ParseUser currentUser = ParseUser.getCurrentUser();
                     savePost(description, currentUser);
-                    Intent intent = new Intent(MainActivity.this, FeedActivity.class);
-//                    Intent intent = new Intent();
-//                    intent.putExtra("post", Parcels.wrap(post));
-                    startActivity(intent);
-                    finish();
+                    // run a background job and once complete
+                    new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            pb.setVisibility(ProgressBar.INVISIBLE);
+                            Intent intent = new Intent(MainActivity.this, FeedActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                    }, 1000);
                 }
             }
         });
