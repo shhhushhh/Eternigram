@@ -88,8 +88,9 @@ public class FeedActivity extends AppCompatActivity {
 //                        fragment = new ProfileFragment();
 //                        ft.beginTransaction().replace(R.id.clFeed, fragment).commit();
                         return true;
-                    default: return true;
                 }
+                bottomNavigationView.setSelectedItemId(R.id.action_home);
+                return true;
             }
         });
 

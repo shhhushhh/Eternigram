@@ -21,6 +21,7 @@ public class PostDetailsActivity extends AppCompatActivity {
     private TextView tvTimeStamp;
     private TextView tvDescription;
     private TextView tvLikes;
+    private ImageView ivPostImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,21 +32,17 @@ public class PostDetailsActivity extends AppCompatActivity {
         tvTimeStamp = findViewById(R.id.tvTimeStamp);
         tvDescription = findViewById(R.id.tvDescription);
         tvLikes = findViewById(R.id.tvLikes);
+        ivPostImg = findViewById(R.id.ivPostImg);
 
         post = Parcels.unwrap(getIntent().getParcelableExtra(Post.class.getSimpleName()));
         tvUsername.setText(post.getUser().getUsername());
         tvTimeStamp.setText(post.getRelativeTimeAgo(post.getCreatedAt().toString()));
-//        if (post.getImage() != null) {
-//            // i need a context in order to do this
-//            // making a new context just makes this null
-//            // so do i wrap the context from postadapter into this parcel?
-//            // seems like StackOverflow says it is unadvised to wrap a context into a parcel because it's not necessarily serializable
-//            // so now what oo i do?
-//            Glide.with(PostsAdapter.ViewHolder.class).load(post.getImage().getUrl()).into(ivPostImg);
-//            ivPostImg.setVisibility(View.VISIBLE);
-//        } else {
-//            ivPostImg.setVisibility(View.GONE);
-//        }
+        if (post.getImage() != null) {
+            Glide.with(this).load(post.getImage().getUrl()).into(ivPostImg);
+            ivPostImg.setVisibility(View.VISIBLE);
+        } else {
+            ivPostImg.setVisibility(View.GONE);
+        }
         tvDescription.setText(post.getDescription());
         String likes;
         if (post.getLikes().equals("1")) {

@@ -37,14 +37,17 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Set core properties
-                user.setUsername(etUsername.toString());
-                user.setPassword(etPassword.toString());
-                user.setEmail(etPassword.toString());
+                user.setUsername(etUsername.getText().toString());
+                user.setPassword(etPassword.getText().toString());
+                user.setEmail(etEmail.getText().toString());
                 user.signUpInBackground(new SignUpCallback() {
                     public void done(ParseException e) {
                         if (e == null) {
                             // Hooray! Let them use the app now.
                             Log.i("sign_up_success", "Sign up success!");
+                            Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
+                            startActivity(intent);
+                            finish();
                         } else {
                             // Sign up didn't succeed. Look at the ParseException
                             // to figure out what went wrong
@@ -52,9 +55,6 @@ public class SignupActivity extends AppCompatActivity {
                         }
                     }
                 });
-                Intent intent = new Intent(SignupActivity.this, FeedActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
     }
